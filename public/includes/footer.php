@@ -27,7 +27,7 @@ transition:0.5s;
 }
 
 .footer .row a:hover{
-color:#fff;
+color:yellow;
 }
 
 .footer .row ul{

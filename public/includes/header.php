@@ -7,10 +7,37 @@
 <style>
 @import url('https://fonts.googleapis.com/css?family=Raleway');
 
-body {
-  margin: 0;
-  font-family: 'Raleway', sans-serif;
+
+a.egOne {
+  position: relative;
+  transition: all 0.15s ease-out;
 }
+
+a.egOne:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: 0;
+  left: 0;;
+  background-color: yellow;
+  visibility: hidden;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
+}
+a.egOne:hover:before {
+  visibility: visible;
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}
+
+a.egOne:hover {
+  color: yellow;
+}
+
+
 
 .top-nav {
   display: flex;
@@ -68,20 +95,17 @@ body {
   transition: color 0.3s;
 }
 
-.menu > li > a:hover {
-  text-decoration: underline;
-}
 
 .logoHeader {
-  width: 48px;
-  height: 48px;
+  width: 54px;
+  height: 54px;
   cursor: pointer;
   display: block;
   transition: transform 0.3s ease;
 }
 
 .logoHeader:hover {
-  transform: scale(1.1);
+  transform: scale(1.2);
 }
 
 .burger {
@@ -170,7 +194,7 @@ body {
 </style>
 </head>
 <body>
-  <section class="top-nav">
+  <section class=" top-nav">
     <div class="nav-wrapper">
 
       <div class="nav-center">
@@ -187,13 +211,13 @@ body {
 
       <div class="nav-left" id="navLeft">
         <ul class="menu">
-          <li><a href="#add-dinosaur" onclick="scrollToSection(event, 'add-dinosaur')">Add a Dinosaur</a></li>
+          <li><a class="egOne" href="#add-dinosaur" onclick="scrollToSection(event, 'add-dinosaur')">Add a Dinosaur</a></li>
         </ul>
       </div>
 
       <div class="nav-right" id="navRight">
         <ul class="menu">
-          <li><a href="#dinosaur-overview" onclick="scrollToSection(event, 'dinosaur-overview')">Dinosaur Overview</a></li>
+          <li><a class="egOne" href="#dinosaur-overview" onclick="scrollToSection(event, 'dinosaur-overview')">Dinosaur Overview</a></li>
         </ul>
       </div>
     </div>

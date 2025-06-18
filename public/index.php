@@ -11,59 +11,7 @@
     <style>
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Play&display=swap');
 
-/* http://meyerweb.com/eric/tools/css/reset/ 
-    v2.0 | 20110126
-    License: none (public domain)
-*/
-
-/* The CSS reset below is mostly unnecessary if you already use a modern CSS framework or have your own base styles. 
-    In this file, some reset rules are redundant because you override them later (e.g., body, html styles). 
-    The @import for Google Fonts is also not needed here, since you already include the fonts in the <head> via <link>.
-*/
-
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-    display: block;
-}
-body {
-    line-height: 1;
-}
-ol, ul {
-    list-style: none;
-}
-blockquote, q {
-    quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-    content: '';
-    content: none;
-}
-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
+*,::after,::before{box-sizing:border-box}html{font-family:system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji';line-height:1.15;-webkit-text-size-adjust:100%;tab-size:4}body{margin:0}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace,SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{border-color:currentcolor}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;line-height:1.15;margin:0}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button}legend{padding:0}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}
 
 /* The rest of the CSS is used in your HTML. 
     However, the @import line and the reset block could be removed or reduced if you want to simplify.
@@ -164,17 +112,22 @@ table {
 
     #video-section {
       position: relative;
-      height: 100vh;
       width: 100%;
+      height: 90vh;
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
       overflow: hidden;
     }
 
+    a:hover {
+      color: yellow;
+      text-decoration: underline;
+    }
+
     video {
-      width: 100%;
-      height: auto;
+     position: relative;
+   
       display: block;
       transition: opacity 1s ease-in-out;
     }
@@ -186,14 +139,14 @@ table {
 
     #lifeImage, #jurassicText {
       position: absolute;
+      width: 400px;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      max-width: 400px;
+      /* max-width: 400px; */
       opacity: 0;
-      transition: opacity 2s ease-in-out;
+      transition: opacity 1s ease-in-out;
       z-index: 2;
-      display: none;
     }
   
 
@@ -224,6 +177,29 @@ table {
     height: 44px !important;
   }
 
+#scrollHint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-family: 'Play', sans-serif;
+  z-index: 3;
+  animation: pulse 1.5s ease-in-out infinite;
+  transition: opacity 0.8s ease;
+  text-align: center;
+}
+
+@keyframes pulse {
+  0% { transform: translateX(-50%) translateY(0); opacity: 1; }
+  50% { transform: translateX(-50%) translateY(5px); opacity: 0.7; }
+  100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+
+
      </style>
 </head>
 <body>
@@ -245,6 +221,10 @@ table {
 
   <img id="lifeImage" src="./img/backgroundimg/lifeFindsAWay.png" alt="Life Finds A Way">
   <img id="jurassicText" src="./img/backgroundimg/Schrift.png" alt="Jurassic Journey">
+</div>
+
+<div id="scrollHint" style="display: none; opacity: 0;">
+  <p>⬇ Scrollen, um mehr zu entdecken ⬇</p>
 </div>
 
 
@@ -336,17 +316,16 @@ table {
 <?php include 'includes/footer.php'; ?>
 
 <script>
-    window.addEventListener('scroll', () => {
-        document.querySelectorAll('.parallax').forEach(section => {
-            const speed = parseFloat(section.dataset.speed);
-            const offset = window.pageYOffset - section.offsetTop;
-            const bg = section.querySelector('.bg');
-            bg.style.transform = `translateY(${offset * speed}px)`;
-        });
+  window.addEventListener('scroll', () => {
+    document.querySelectorAll('.parallax').forEach(section => {
+      const speed = parseFloat(section.dataset.speed);
+      const offset = window.pageYOffset - section.offsetTop;
+      const bg = section.querySelector('.bg');
+      bg.style.transform = `translateY(${offset * speed}px)`;
     });
+  });
 
-
-const video = document.getElementById('myVideo');
+  const video = document.getElementById('myVideo');
   const videoSection = document.getElementById('video-section');
   const lifeImage = document.getElementById('lifeImage');
   const jurassicText = document.getElementById('jurassicText');
@@ -361,98 +340,104 @@ const video = document.getElementById('myVideo');
       video.style.display = 'none';
       videoSection.style.backgroundImage = bgImageUrl;
 
-  // Sanft einblenden (nach kurzer Pause)
-setTimeout(() => {
-  lifeImage.style.display = 'block';
-  lifeImage.style.opacity = '0';
-  // Nutze rAF + kleines Timeout für Übergang
-  setTimeout(() => {
-    lifeImage.style.opacity = '1';
-  }, 50); // minimaler Delay für Transition-Trick
-}, 200); // Warte 200ms nach Hintergrundwechsel
+      // Sanft lifeImage einblenden
+      setTimeout(() => {
+        lifeImage.style.display = 'block';
+        lifeImage.style.opacity = '0';
+        setTimeout(() => {
+          lifeImage.style.opacity = '1';
+        }, 50);
+      }, 200);
 
-
-      // 4. Nach 3s: wieder ausblenden
+      // Nach 2.2s: lifeImage ausblenden
       setTimeout(() => {
         lifeImage.style.opacity = '0';
-
-        // 5. Nach 1s: Jurassic Journey zeigen
         setTimeout(() => {
           lifeImage.style.display = 'none';
+          // jurassicText einblenden, gleiche Animation
           jurassicText.style.display = 'block';
-          requestAnimationFrame(() => {
+          jurassicText.style.opacity = '0';
+          setTimeout(() => {
             jurassicText.style.opacity = '1';
-          });
-        }, 1000);
 
-      }, 3000);
-    }, 1000);
+            // Scroll-Hinweis erst jetzt einblenden!
+            setTimeout(() => {
+              const scrollHint = document.getElementById('scrollHint');
+              scrollHint.style.display = 'block';
+              setTimeout(() => {
+                scrollHint.style.opacity = '1';
+              }, 100);
+            }, 1000); // Optional: 1 Sekunde nach JurassicJourney-Einblendung
+          }, 50);
+        }, 1000); // 1s für das Ausblenden von lifeImage
+      }, 2200); // 2.2s nach dem Einblenden von lifeImage
+
+    }, 2000);
   });
 
- // Slow scroll with easing
-    function scrollToSection(event, targetId) {
-        event.preventDefault();
-        const target = document.getElementById(targetId);
-        if (!target) return;
-        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
-        const startPosition = window.pageYOffset;
-        const distance = targetPosition - startPosition;
-        const duration = 1200;
-        let start = null;
+  // Slow scroll with easing
+  function scrollToSection(event, targetId) {
+    event.preventDefault();
+    const target = document.getElementById(targetId);
+    if (!target) return;
+    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - startPosition;
+    const duration = 1200;
+    let start = null;
 
-        function step(timestamp) {
-            if (!start) start = timestamp;
-            const progress = timestamp - start;
-            const ease = easeInOutQuad(progress / duration);
-            window.scrollTo(0, startPosition + distance * ease);
-            if (progress < duration) requestAnimationFrame(step);
-        }
-
-        function easeInOutQuad(t) {
-            return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-        }
-
-        requestAnimationFrame(step);
+    function step(timestamp) {
+      if (!start) start = timestamp;
+      const progress = timestamp - start;
+      const ease = easeInOutQuad(progress / duration);
+      window.scrollTo(0, startPosition + distance * ease);
+      if (progress < duration) requestAnimationFrame(step);
     }
 
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
-        link.addEventListener('click', function(e) {
-            const href = this.getAttribute('href').substring(1);
-            scrollToSection(e, href);
-        });
+    function easeInOutQuad(t) {
+      return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const href = this.getAttribute('href').substring(1);
+      scrollToSection(e, href);
     });
+  });
 
-    document.getElementById('dinoForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const name = document.getElementById('name').value;
-        const era = document.getElementById('era').value;
-        const diet = document.getElementById('diet').value;
-        const description = document.getElementById('description').value;
+  document.getElementById('dinoForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const name = document.getElementById('name').value;
+    const era = document.getElementById('era').value;
+    const diet = document.getElementById('diet').value;
+    const description = document.getElementById('description').value;
 
-        if (name && era && diet && description) {
-            const tableBody = document.getElementById('dinoTableBody');
-            const newRow = document.createElement('tr');
-            newRow.innerHTML = `<td>${name}</td><td>${era}</td><td>${diet}</td><td>${description}</td>`;
-            tableBody.appendChild(newRow);
+    if (name && era && diet && description) {
+      const tableBody = document.getElementById('dinoTableBody');
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `<td>${name}</td><td>${era}</td><td>${diet}</td><td>${description}</td>`;
+      tableBody.appendChild(newRow);
 
-            document.getElementById('detail-name').textContent = '-';
-            document.getElementById('detail-era').textContent = '-';
-            document.getElementById('detail-diet').textContent = '-';
-            document.getElementById('detail-description').textContent = '-';
-            this.reset();
-        } else {
-            alert('Bitte füllen Sie alle Felder aus.');
-        }
+      document.getElementById('detail-name').textContent = '-';
+      document.getElementById('detail-era').textContent = '-';
+      document.getElementById('detail-diet').textContent = '-';
+      document.getElementById('detail-description').textContent = '-';
+      this.reset();
+    } else {
+      alert('Bitte füllen Sie alle Felder aus.');
+    }
+  });
+
+  ['name', 'era', 'diet', 'description'].forEach(id => {
+    document.getElementById(id).addEventListener('input', function() {
+      document.getElementById('detail-' + id).textContent = this.value || '-';
     });
+  });
 
-    ['name', 'era', 'diet', 'description'].forEach(id => {
-        document.getElementById(id).addEventListener('input', function() {
-            document.getElementById('detail-' + id).textContent = this.value || '-';
-        });
-    });
-
-
- (function() {
+  (function() {
     const dot = document.querySelector('.cursor-dot');
     const ring = document.querySelector('.cursor-ring');
 
@@ -467,6 +452,50 @@ setTimeout(() => {
     window.addEventListener('mousemove', e => {
       mouseX = e.clientX;
       mouseY = e.clientY;
+      // Show "to top" button if not already present
+      let toTopBtn = document.getElementById('toTopBtn');
+      if (!toTopBtn) {
+        toTopBtn = document.createElement('button');
+        toTopBtn.id = 'toTopBtn';
+        toTopBtn.textContent = '↑';
+        toTopBtn.style.position = 'fixed';
+        toTopBtn.style.bottom = '32px';
+        toTopBtn.style.right = '32px';
+        toTopBtn.style.zIndex = '10000';
+        toTopBtn.style.display = 'none';
+        toTopBtn.style.background = '#222';
+        toTopBtn.style.color = '#fff';
+        toTopBtn.style.border = 'none';
+        toTopBtn.style.borderRadius = '50%';
+        toTopBtn.style.width = '48px';
+        toTopBtn.style.height = '48px';
+        toTopBtn.style.fontSize = '1.5em';
+        toTopBtn.style.cursor = 'pointer';
+        toTopBtn.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
+        toTopBtn.style.transition = 'transform 0.2s cubic-bezier(.4,2,.6,1)';
+        document.body.appendChild(toTopBtn);
+
+        toTopBtn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        toTopBtn.addEventListener('mouseenter', function() {
+          toTopBtn.style.transform = 'scale(1.18)';
+          toTopBtn.style.color = 'yellow';
+        });
+        toTopBtn.addEventListener('mouseleave', function() {
+          toTopBtn.style.transform = 'scale(1)';
+          toTopBtn.style.color = '#fff';
+        });
+
+        window.addEventListener('scroll', function() {
+          if (window.scrollY > 200) {
+            toTopBtn.style.display = 'block';
+          } else {
+            toTopBtn.style.display = 'none';
+          }
+        });
+      }
     });
 
     // Check if hovering interactive element
@@ -507,6 +536,7 @@ setTimeout(() => {
     animate();
   })();
 
+  // Der Scroll-Hinweis wird jetzt erst nach dem JurassicJourney-Einblenden gezeigt!
 </script>
 </body>
 </html>
